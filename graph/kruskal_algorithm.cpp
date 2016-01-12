@@ -36,7 +36,9 @@ void init_union_find(int arr[],int size)
         arr[i] = i;
     }
 }
-
+/*The find function just below this comment is the regular and simple implementation, while the second one makes sure 
+that the tree stays balanced
+*/
 /*int find(int arr[], int vertex)
 {
     if(vertex == arr[vertex])
