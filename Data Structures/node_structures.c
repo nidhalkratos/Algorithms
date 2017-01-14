@@ -1,7 +1,7 @@
 /*
 This code was written by Nidhal Abidi. Check out www.github.com/nidhalkratos for more info
 You can use this code however you want, but note that it is provided as is and I'm not responsible for any miss use :P
-This is a simple implementation for fondamental data structures and their basic operations
+This is a simple implementation for fundamental data structures and their basic operations
 
 Linked list : Pushing to the front and the back and poping from the front and the back
 Stacks 		: Pushing and poping
