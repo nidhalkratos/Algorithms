@@ -3,12 +3,10 @@ Hi, This source code has been written by Nidhal Abidi from IknowBrain
 please visit us at:
 www.iknowbrain.work
 www.youtube.com/iknowbrain
-
 This is an implementation for kruskal's algorithm , it takes a graph and output the minimum spannint tree MST.
-
-Run the application after compiling it with g++ , 
+Run the application after compiling it with g++ ,
 input the numer of nodes nb_nodes, and the number of edges nb_edges and then for nb_edges lines input the vertex
-u and vertex v and the weight w. 
+u and vertex v and the weight w.
 */
 
 #include <iostream>
@@ -36,7 +34,7 @@ void init_union_find(int arr[],int size)
         arr[i] = i;
     }
 }
-/*The find function just below this comment is the regular and simple implementation, while the second one makes sure 
+/*The find function just below this comment is the regular and simple implementation, while the second one makes sure
 that the tree stays balanced
 */
 /*int find(int arr[], int vertex)
@@ -86,8 +84,8 @@ int main()
     int counter = 0;
     for(list<edge>::iterator e = edges.begin();e!=edges.end();++e)
     {
-        int u = (*e).u;
-        int v = (*e).v;
+        int u = e->u;
+        int v = e->v;
         if(find(arr,u) != find(arr,v))
         {
             _union(arr,u,v);
@@ -100,12 +98,12 @@ int main()
     cout<<endl;
     for(list<edge>::iterator e = mst_list.begin();e!=mst_list.end();++e)
     {
-        cout<<(*e).u<<' '<<(*e).v<<' '<<(*e).w<<endl;
+        cout<< e->u << ' ' << e->v << ' ' << e->w <<endl;
     }
 
     return 0;
 }
-/*Example imput is below*/
+/*Example input is below*/
 /*
 6 8
 1 4 4
