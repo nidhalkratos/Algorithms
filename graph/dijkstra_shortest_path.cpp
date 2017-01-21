@@ -1,15 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <set>
-#include <stack>
-#include <queue>
-#include <list>
-
+#include <bits/stdc++.h>
 
 #define INFINITY 99999999
+#define DIRECTED 1
+#define UNDIRECTED 0
 
 using namespace std;
-struct edge {int vertex; int weight;};
+struct edge {int vertex; double weight;};
 bool operator<(const edge &a,const edge &b)
 {
     return a.vertex <b.vertex;
@@ -18,30 +14,30 @@ bool operator<(const edge &a,const edge &b)
 class Graph
 {
 private:
-    int nodes;
+    size_t nb_nodes;
     bool directed;
     vector<set<edge> > adjacency_set;
 
     //Dijkstra Fields
     int dijkstra_current_source;
-    vector<int> dist;
+    vector<double> dist;
     vector<int> parent;
 
 public:
-    Graph(int nodes,bool directed);
-    void add_edge(int u,int v,int weight);
+    Graph(int nodes,bool directed = DIRECTED);
+    void add_edge(int u,int v,int weight = 1);
     int dijkstra(int source, int target);
     list<int> get_shortest_path(int source,int target);
 };
 
-Graph::Graph(int nodes,bool directed = true)
+Graph::Graph(int nodes,bool directed )
 {
-    this->nodes+1;
+    this->nb_nodes = nodes+1;
     this->directed = directed;
-    adjacency_set.resize(this->nodes);
+    adjacency_set.resize(this->nb_nodes);
 }
 
-void Graph::add_edge(int u,int v,int weight = 1)
+void Graph::add_edge(int u,int v,int weight)
 {
     adjacency_set[u].insert(edge{v,weight});
     if(!this->directed)
@@ -50,13 +46,12 @@ void Graph::add_edge(int u,int v,int weight = 1)
 
 int Graph::dijkstra(int source,int target)
 {
-    if(dijkstra_current_source != source)
+    if(dijkstra_current_source != source)               //Prevent recalculations when they are not needed
     {
         dijkstra_current_source = source;
-        dist.resize(this->nodes);
-        parent.resize(this->nodes);
-        for(int i = 0; i <nodes;i++)
-            dist[i] = INFINITY;
+        dist.resize(this->nb_nodes);
+        parent.resize(this->nb_nodes);
+        fill(dist.begin(),dist.end(),INFINITY);
 
         queue<edge> q;
         set<int> visited;
@@ -69,12 +64,12 @@ int Graph::dijkstra(int source,int target)
             visited.insert(e.vertex);
             for(set<edge>::iterator child=adjacency_set[e.vertex].begin();child!=adjacency_set[e.vertex].end();++child)
             {
-                if( ( dist[e.vertex] + (*child).weight ) < dist[(*child).vertex])
+                if( ( dist[e.vertex] + child->weight ) < dist[child->vertex])
                 {
-                    dist[(*child).vertex] = dist[e.vertex]+(*child).weight;
-                    parent[(*child).vertex] = e.vertex;
+                    dist[child->vertex] = dist[e.vertex]+child->weight;
+                    parent[child->vertex] = e.vertex;
                 }
-                if(visited.find((*child).vertex) == visited.end())
+                if(visited.find(child->vertex) == visited.end())
                 {
                     q.push(*child);
                 }
@@ -98,7 +93,7 @@ list<int> Graph::get_shortest_path(int source,int target)
 
 int main()
 {
-    Graph graph(6,false);
+    Graph graph(6,UNDIRECTED);
     graph.add_edge(1,2,2);
     graph.add_edge(1,3,10);
     graph.add_edge(2,3,7);
@@ -106,8 +101,8 @@ int main()
     graph.add_edge(3,5,3);
     graph.add_edge(4,5,2);
     graph.add_edge(5,6,1);
-    cout<<graph.dijkstra(1,6)<<endl;
     list<int> path = graph.get_shortest_path(1,6);
+    cout << "The shortest path is " << path.size() << " nodes long!\n";
     for(list<int>::iterator it = path.begin();it!=path.end();++it)
         cout<<*it<<'\t';
     return 0;
